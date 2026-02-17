@@ -25,12 +25,12 @@ if(isset($_POST['login'])){
 <head>
 <title>Library Login</title>
 
-<!-- Tailwind CDN -->
+
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body {
-    background-image: url('library.webp'); /* path to of image */
-    background-size: cover;     /* cover the entire screen */
+    background-image: url('library.webp'); 
+    background-size: cover;    
     background-repeat: no-repeat;
     background-position: center;
 }
