@@ -29,8 +29,8 @@ if(isset($_POST['login'])){
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 body {
-    background-image: url('library.webp'); 
-    background-size: cover;    
+    background-image: url('mid-century-interior-design.jpg'); 
+    background-size:cover;    
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -40,7 +40,9 @@ body {
 </head>
 <body class="bg-gray-100 flex justify-center items-center h-screen">
 
-<div class="bg-white p-8 rounded-xl shadow-lg w-96">
+<div class="bg-[#c47a1e]/70 p-8 rounded-2xl shadow-2xl w-96">
+
+
     <h2 class="text-2xl font-bold mb-4 text-center">Library Login</h2>
 
     <form method="POST">
@@ -51,7 +53,7 @@ body {
         <input type="password" name="password" placeholder="Password"
         class="w-full p-2 border rounded mb-3" required>
 
-       
+        
         <select name="role" class="w-full p-2 border rounded mb-3">
             <option value="librarian">Librarian</option>
             <option value="student">Student</option>
@@ -63,8 +65,9 @@ body {
         </button>
     </form>
 
-    <div class="text-center mt-4">
+    <div class="text-center mt-4 ">
         <a href="signup.php" class="text-blue-500">Sign Up</a>
+        
     </div>
 </div>
 
