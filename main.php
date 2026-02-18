@@ -21,6 +21,12 @@ $literature = $conn->query("SELECT * FROM litbooks WHERE status='available'");
 <head>
 <title>Main Page</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<style>body {
+    background-image: url('laki.jpg'); 
+    background-size:cover;     
+    background-repeat: no-repeat;
+    background-position: center;
+}</style>
 </head>
 
 <body class="bg-gray-100">
@@ -42,6 +48,8 @@ $literature = $conn->query("SELECT * FROM litbooks WHERE status='available'");
 <a href="borrow_book.php" class="text-blue-600 hover:underline">Borrow Book</a>
 <a href="fine_calculator.php" class="text-blue-600 hover:underline">Fine Calculator</a>
 <a href="logout.php" class="text-red-600 hover:underline">Logout</a>
+<a href="delete_book.php" class="text-blue-600 hover:underline">Delete book</a>
+<a href="edit_book.php" class="text-blue-600 hover:underline">Edit book</a>
 
 </nav>
 
