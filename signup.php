@@ -88,7 +88,7 @@ body {
     </form>
 
     <div class="text-center mt-4">
-        <a href="index.php" class="text-blue-500">Back to Login</a>
+        <a href="index1.php" class="text-blue-500">Back to Login</a>
     </div>
 </div>
 
