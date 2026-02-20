@@ -9,7 +9,7 @@ $resultHTML = "";
 
 if(isset($_POST['search'])){
 
-    $book = $_POST['book_name'];
+    $book = $conn->real_escape_string($_POST['book_name']);
 
     $sql = "
     SELECT book_name, author, image, 'Novel' AS category 
@@ -31,75 +31,95 @@ if(isset($_POST['search'])){
 
     $query = $conn->query($sql);
 
-    if($query->num_rows > 0){
+    if($query && $query->num_rows > 0){
 
         while($row = $query->fetch_assoc()){
 
-            $bookName = $row['book_name'];
-            $author = $row['author'];
+            $bookName = htmlspecialchars($row['book_name']);
+            $author = htmlspecialchars($row['author']);
             $category = $row['category'];
-            $image = $row['image'];
+            $image = htmlspecialchars($row['image']);
 
             $resultHTML .= "
-            <div class='border p-4 rounded mb-4 bg-gray-50 shadow'>
+            <div class='bg-white/30 backdrop-blur-md p-5 rounded-2xl shadow-lg border border-white/40 mb-5'>
                 <img src='uploads/$image' 
-                     class='w-full h-40 object-cover rounded mb-3'>
+                     class='w-full h-48 object-cover rounded-xl mb-4'>
 
-                <p><strong>Book Name:</strong> $bookName</p>
-                <p><strong>Author:</strong> $author</p>
-                <p><strong>Category:</strong> $category</p>
+                <p class='text-white'><strong>Book Name:</strong> $bookName</p>
+                <p class='text-white'><strong>Author:</strong> $author</p>
+                <p class='text-white'><strong>Category:</strong> $category</p>
             </div>
             ";
         }
 
     } else {
-        $resultHTML = "<div class='text-red-600 font-bold text-center'>Book Not Found</div>";
+        $resultHTML = "<div class='text-red-300 font-bold text-center mt-4'>Book Not Found</div>";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Search Book</title>
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>Library Management System - Search Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
+<body class="min-h-screen flex flex-col items-center justify-start bg-cover bg-center bg-no-repeat p-10"
+      style="background-image: url('images/library-bg.jpg');">
 
-<body class="bg-gray-100 p-8 bg-cover bg-center" 
-      style="background-image: url('searchbook.jpg');">
+    <div class="absolute inset-0 bg-black/60 -z-10"></div>
 
-<div class="bg-white/90 p-6 rounded shadow w-96 mx-auto backdrop-blur-sm">
+    <div class="relative bg-white/20 backdrop-blur-xl p-10 rounded-3xl 
+                shadow-2xl w-96 max-w-full border border-white/30">
 
-    <h2 class="text-xl font-bold mb-4 text-center">Search Book</h2>
-
-    <form method="POST">
-
-        <input type="text" 
-               name="book_name"
-               placeholder="Enter Book Name"
-               class="w-full p-2 border mb-3 rounded"
-               required>
-
-        <button type="submit" 
-                name="search"
-                class="bg-blue-600 text-white p-2 w-full rounded hover:bg-blue-700">
-            Search
-        </button>
-
-        <div class="mt-4">
-            <?php echo $resultHTML; ?>
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-white drop-shadow-lg">
+                Library Management
+            </h1>
+            <p class="text-indigo-100 mt-2 text-sm">
+                Search and manage your book collection
+            </p>
         </div>
 
-        <button type="button"
-        onclick="window.location='main.php'"
-        class="mt-4 bg-indigo-500 hover:bg-indigo-700 text-white p-2 w-full rounded">
-        Back
-        </button>
+        <form method="POST" class="space-y-5">
 
-    </form>
+            <input type="text"
+                   name="book_name"
+                   placeholder="Enter Book Name"
+                   class="w-full p-4 rounded-xl bg-white/30 text-white
+                          placeholder-white/70 border border-white/40
+                          focus:outline-none focus:ring-4 focus:ring-blue-400
+                          focus:border-transparent transition duration-300"
+                   required>
 
-</div>
+            <button type="submit"
+                    name="search"
+                    class="w-full bg-gradient-to-r from-blue-500 to-indigo-600
+                           hover:from-indigo-600 hover:to-blue-500
+                           text-white p-4 rounded-xl font-semibold
+                           shadow-lg transform hover:scale-105
+                           transition duration-300">
+                           Search Book
+            </button>
+
+            <button type="button"
+                    onclick="window.location='main.php'"
+                    class="w-full bg-gradient-to-r from-emerald-400 to-teal-500
+                           hover:from-teal-500 hover:to-emerald-400
+                           text-white p-4 rounded-xl font-semibold
+                           shadow-lg transform hover:scale-105
+                           transition duration-300">
+                ⬅ Back to Dashboard
+            </button>
+
+        </form>
+    </div>
+
+    <div class="w-full max-w-2xl mt-10">
+        <?php echo $resultHTML; ?>
+    </div>
 
 </body>
 </html>
