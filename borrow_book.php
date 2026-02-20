@@ -4,7 +4,7 @@ include("db.php");
 
 
 if(!isset($_SESSION['username']) || $_SESSION['role'] != "student"){
-    header("Location: index.php");
+    header("Location: index1.php");
     exit();
 }
 
