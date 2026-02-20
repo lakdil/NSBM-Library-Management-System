@@ -45,7 +45,7 @@ if(isset($_POST['update'])){
 </head>
 
 <body class="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
-      style="background-image: url('images/library-bg.jpg');">
+      style="background-image: url('picture.jpeg');">
 
       <div class="absolute inset-0 bg-black/60"></div>
 
