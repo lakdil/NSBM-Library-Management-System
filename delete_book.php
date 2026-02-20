@@ -44,8 +44,6 @@ body {
 </style>
 </head>
 <body class="bg-gray-100 p-8">
-
-
 <div class="bg-amber-100 p-6 rounded shadow w-96 mx-auto mt-32">
 
     <h2 class="text-xl font-bold mb-4 text-center text-red-600">
