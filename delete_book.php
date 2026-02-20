@@ -6,31 +6,25 @@ include("db.php");
 
 $message = "";
 
-if(isset($_POST['add'])){
+if(isset($_POST['delete'])){
 
     $book_name = $conn->real_escape_string($_POST['book_name']);
-    $author = $conn->real_escape_string($_POST['author']);
-    $quantity = $conn->real_escape_string($_POST['quantity']);
-    $category = $_POST['category'];
-    $image = $conn->real_escape_string($_POST['image']);   
 
-    if($category == "Novel"){
-        $sql = "INSERT INTO novelbooks (book_name, author, quantity, image) 
-                VALUES ('$book_name', '$author', '$quantity', '$image')";
-    }
-    elseif($category == "Education"){
-        $sql = "INSERT INTO educationbooks (book_name, author, quantity, image) 
-                VALUES ('$book_name', '$author', '$quantity', '$image')";
-    }
-    elseif($category == "Literature"){
-        $sql = "INSERT INTO litbooks (book_name, author, quantity, image) 
-                VALUES ('$book_name', '$author', '$quantity', '$image')";
+    $deleted = false;
+
+    $tables = ['novelbooks', 'educationbooks', 'litbooks'];
+
+    foreach($tables as $table){
+        $result = $conn->query("DELETE FROM $table WHERE book_name='$book_name'");
+        if($result && $conn->affected_rows > 0){
+            $deleted = true;
+        }
     }
 
-    if(isset($sql) && $conn->query($sql)){
-        $message = "<div class='text-green-300 font-semibold text-center'>Book Added Successfully</div>";
+    if($deleted){
+        $message = "<div class='text-green-300 font-semibold text-center'>Book Deleted Successfully</div>";
     } else {
-        $message = "<div class='text-red-300 font-semibold text-center'>Error Adding Book</div>";
+        $message = "<div class='text-red-300 font-semibold text-center'>Book Not Found</div>";
     }
 }
 ?>
@@ -39,7 +33,7 @@ if(isset($_POST['add'])){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Library Management - Add Book</title>
+    <title>Library Management - Delete Book</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -56,7 +50,7 @@ if(isset($_POST['add'])){
                 Library Management
             </h1>
             <p class="text-indigo-100 mt-2 text-sm">
-                Add a New Book to the Collection
+                Delete a Book from the Collection
             </p>
         </div>
 
@@ -68,55 +62,20 @@ if(isset($_POST['add'])){
 
             <input type="text"
                    name="book_name"
-                   placeholder="Book Name"
+                   placeholder="Book Name to Delete"
                    class="w-full p-4 rounded-xl bg-white/30 text-white
                           placeholder-white/70 border border-white/40
-                          focus:outline-none focus:ring-4 focus:ring-blue-400"
-                   required>
-
-            <input type="text"
-                   name="author"
-                   placeholder="Author"
-                   class="w-full p-4 rounded-xl bg-white/30 text-white
-                          placeholder-white/70 border border-white/40
-                          focus:outline-none focus:ring-4 focus:ring-blue-400"
-                   required>
-
-            <input type="number"
-                   name="quantity"
-                   placeholder="Quantity"
-                   class="w-full p-4 rounded-xl bg-white/30 text-white
-                          placeholder-white/70 border border-white/40
-                          focus:outline-none focus:ring-4 focus:ring-blue-400"
-                   required>
-
-            <select name="category"
-                    class="w-full p-4 rounded-xl bg-white/30 text-white
-                           border border-white/40 focus:outline-none
-                           focus:ring-4 focus:ring-indigo-400"
-                    required>
-                <option value="" class="text-black">Select Category</option>
-                <option value="Novel" class="text-black">Novel</option>
-                <option value="Education" class="text-black">Education</option>
-                <option value="Literature" class="text-black">Literature</option>
-            </select>
-
-            <input type="text"
-                   name="image"
-                   placeholder="Image Name (example.jpg)"
-                   class="w-full p-4 rounded-xl bg-white/30 text-white
-                          placeholder-white/70 border border-white/40
-                          focus:outline-none focus:ring-4 focus:ring-blue-400"
+                          focus:outline-none focus:ring-4 focus:ring-red-400"
                    required>
 
             <button type="submit"
-                    name="add"
-                    class="w-full bg-gradient-to-r from-green-500 to-emerald-600
-                           hover:from-emerald-600 hover:to-green-500
+                    name="delete"
+                    class="w-full bg-gradient-to-r from-red-500 to-rose-600
+                           hover:from-rose-600 hover:to-red-500
                            text-white p-4 rounded-xl font-semibold
                            shadow-lg transform hover:scale-105
                            transition duration-300">
-                           Add Book
+                           Delete Book
             </button>
 
             <button type="button"
