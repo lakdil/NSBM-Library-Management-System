@@ -58,7 +58,7 @@ body {
 <div class="absolute top-4 right-6">
     <a href="profile.php">
         <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-700">
-            👤
+            👤 Profile
         </div>
     </a>
 </div>
