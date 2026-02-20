@@ -50,7 +50,7 @@ if(isset($_POST['signup'])){
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
 body {
-    background-image: url('picture.jpeg'); 
+    background-image: url('signuppagepic.jpeg'); 
     background-size:cover;     
     background-repeat: no-repeat;
     background-position: center;
@@ -86,7 +86,6 @@ body {
         Sign Up
         </button>
     </form>
-
     <div class="text-center mt-4">
         <a href="index1.php" class="text-blue-500">Back to Login</a>
     </div>
