@@ -8,21 +8,18 @@ if(isset($_POST['search'])){
     $book = trim($conn->real_escape_string($_POST['book_name']));
 
     if(empty($book)){
-        $resultHTML = "<div class='text-red-600 font-bold text-center'>Please enter a book name ❌</div>";
+        $resultHTML = "<div class='text-red-600 font-bold text-center'>Please enter a book name</div>";
     } else {
+        
         $sql = "
         SELECT book_name, author, image, 'Novel' AS category 
         FROM novelbooks 
         WHERE book_name LIKE '%$book%'
-
-        UNION
-
+        UNION ALL
         SELECT book_name, author, image, 'Education' AS category 
         FROM educationbooks 
         WHERE book_name LIKE '%$book%'
-
-        UNION
-
+        UNION ALL
         SELECT book_name, author, image, 'Literature' AS category 
         FROM litbooks 
         WHERE book_name LIKE '%$book%'
@@ -41,10 +38,9 @@ if(isset($_POST['search'])){
                 $category = htmlspecialchars($row['category']);
                 $image = $row['image'];
 
-                // Check if image exists, fallback to default
                 $imgPath = 'uploads/' . $image;
                 if(empty($image) || !file_exists($imgPath)){
-                    $imgPath = 'uploads/default.jpg'; // make sure you have a default.jpg in uploads/
+                    $imgPath = 'uploads/default.jpg';
                 }
 
                 $resultHTML .= "
@@ -58,7 +54,7 @@ if(isset($_POST['search'])){
                 ";
             }
         } else {
-            $resultHTML = "<div class='text-red-600 font-bold text-center'>Book Not Found ❌</div>";
+            $resultHTML = "<div class='text-red-600 font-bold text-center'>Book Not Found</div>";
         }
     }
 }
