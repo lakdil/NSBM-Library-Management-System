@@ -1,86 +1,143 @@
+<?php
+session_start();
+include("db.php");
+
+if(!isset($_SESSION['username'])){
+    header("Location: index.php");
+    exit();
+}
+
+$username = $_SESSION['username'];
+$role = $_SESSION['role'];
+
+
+$novels = $conn->query("SELECT * FROM novelbooks WHERE status='available'");
+$education = $conn->query("SELECT * FROM educationbooks WHERE status='available'");
+$literature = $conn->query("SELECT * FROM litbooks WHERE status='available'");
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
+<title>Main Page</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="style.css">
-
-<style>
-input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
-}
-</style>
-
 </head>
-<body class="bg-gray-100 p-8">
+
+<body class="bg-gray-100">
 
 
-<div class="bg-white p-6 rounded shadow w-96 mx-auto mb-6">
-    <h2 class="text-xl font-bold mb-4">Fine Calculator</h2>
-
-    <input type="number" id="days" placeholder="Late Days">
-
-    <button onclick="calculateFine()"
-    class="bg-blue-600 text-white p-2 w-full rounded mt-3">
-    Calculate
-    </button>
-
-    <p id="fineResult" class="mt-3 font-bold text-center"></p>
+<div class="bg-blue-600 text-white p-4 text-center">
+    <h2 class="text-xl font-semibold">Welcome <?php echo $username; ?></h2>
 </div>
 
 
-<div class="bg-white p-6 rounded shadow w-96 mx-auto">
-    <h2 class="text-red-600 text-center font-bold mb-4">
-        Calculate days between two given dates
-    </h2>
+<nav class="bg-white shadow p-4 flex space-x-6">
 
-    <label><b>Enter date1</b></label>
-    <input type="date" id="dateInput1">
+<?php if($role == "librarian"){ ?>
+    <a href="add_member.php" class="text-blue-600 hover:underline">Add Member</a>
+    <a href="add_book.php" class="text-blue-600 hover:underline">Add Book</a>
+    <a href="delete_book.php" class="text-blue-600 hover:underline">Delete book</a>
+    <a href="edit_book.php" class="text-blue-600 hover:underline">Edit book</a>
+    <a href="return_book.php" class="text-blue-600 hover:underline">Return Book</a>
 
-    <label class="mt-3 block"><b>Enter date2</b></label>
-    <input type="date" id="dateInput2">
+<?php } ?>
 
-    <button onclick="dateDiff()" 
-    class="bg-green-600 text-white p-2 w-full rounded mt-4">
-    Calculate number of days
-    </button>
-
-    <button type="button" onclick="back()"
-    class="px-3 py-1.5 text-white bg-indigo-500 rounded-lg hover:bg-indigo-700 w-full mt-3">
-    Back
-    </button>
-
-    <h3 id="dateResult" class="text-center font-bold mt-4"></h3>
+<a href="search_book.php" class="text-blue-600 hover:underline">Search Book</a>
+<a href="borrow_book.php" class="text-blue-600 hover:underline">Borrow Book</a>
+<a href="fine_calculator.php" class="text-blue-600 hover:underline">Fine Calculator</a>
+<a href="logout.php" class="text-red-600 hover:underline">Logout</a>
+<div class="absolute top-4 right-6">
+    <a href="profile.php">
+        <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-700">
+            👤
+        </div>
+    </a>
 </div>
 
-<script>
-function back(){
-    window.location.href="main.php";
-}
+</nav>
 
-function calculateFine(){
-    let days = document.getElementById("days").value;
-    let fine = days * 10;
-    document.getElementById("fineResult").innerHTML =
-    "Total Fine: Rs." + fine;
-}
 
-function dateDiff(){
-    var dateI1 = document.getElementById("dateInput1").value;
-    var dateI2 = document.getElementById("dateInput2").value;
+<div class="p-8">
 
-    var date1 = new Date(dateI1);
-    var date2 = new Date(dateI2);
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-    var time_difference = date2.getTime() - date1.getTime();
-    var result = time_difference / (1000 * 60 * 60 * 24);
+       
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-2xl font-bold text-center mb-4 text-blue-600">Novel Books</h2>
 
-    document.getElementById("dateResult").innerHTML =
-    result + " days between both dates.";
-}
-</script>
+            <?php if($novels->num_rows > 0){ ?>
+                <?php while($row = $novels->fetch_assoc()){ ?>
+                    <div class="border rounded-lg p-4 mb-4 shadow-sm hover:shadow-md transition">
+                        <img src="uploads/<?php echo $row['image']; ?>" 
+                             class="w-full h-40 object-cover rounded mb-3">
+
+                        <h3 class="font-semibold text-lg">
+                            <?php echo $row['book_name']; ?>
+                        </h3>
+
+                        <p class="text-gray-600">
+                            Author: <?php echo $row['author']; ?>
+                        </p>
+                    </div>
+                <?php } ?>
+            <?php } else { ?>
+                <p class="text-gray-500 text-center">No Available Books</p>
+            <?php } ?>
+        </div>
+
+
+      
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-2xl font-bold text-center mb-4 text-green-600">Education Books</h2>
+
+            <?php if($education->num_rows > 0){ ?>
+                <?php while($row = $education->fetch_assoc()){ ?>
+                    <div class="border rounded-lg p-4 mb-4 shadow-sm hover:shadow-md transition">
+                        <img src="uploads/<?php echo $row['image']; ?>" 
+                             class="w-full h-40 object-cover rounded mb-3">
+
+                        <h3 class="font-semibold text-lg">
+                            <?php echo $row['book_name']; ?>
+                        </h3>
+
+                        <p class="text-gray-600">
+                            Author: <?php echo $row['author']; ?>
+                        </p>
+                    </div>
+                <?php } ?>
+            <?php } else { ?>
+                <p class="text-gray-500 text-center">No Available Books</p>
+            <?php } ?>
+        </div>
+
+
+      
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h2 class="text-2xl font-bold text-center mb-4 text-purple-600">Literature Books</h2>
+
+            <?php if($literature->num_rows > 0){ ?>
+                <?php while($row = $literature->fetch_assoc()){ ?>
+                    <div class="border rounded-lg p-4 mb-4 shadow-sm hover:shadow-md transition">
+                        <img src="uploads/<?php echo $row['image']; ?>" 
+                             class="w-full h-40 object-cover rounded mb-3">
+
+                        <h3 class="font-semibold text-lg">
+                            <?php echo $row['book_name']; ?>
+                        </h3>
+
+                        <p class="text-gray-600">
+                            Author: <?php echo $row['author']; ?>
+                        </p>
+                    </div>
+                <?php } ?>
+            <?php } else { ?>
+                <p class="text-gray-500 text-center">No Available Books</p>
+            <?php } ?>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
