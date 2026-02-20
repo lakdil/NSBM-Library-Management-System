@@ -41,7 +41,7 @@ if(isset($_POST['add'])){
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 p-8" class="bg-cover bg-center min-h-screen flex items-center justify-center"
+<body class="bg-cover bg-center min-h-screen flex items-center justify-center"
       style="background-image: url('book.jpg');">
 
 <div class="bg-white p-6 rounded shadow w-96 mx-auto">
