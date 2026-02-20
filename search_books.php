@@ -39,7 +39,7 @@ if(isset($_POST['search'])){
                 $image = $row['image'];
 
                 $imgPath = 'uploads/' . $image;
-                if(empty($image) || !file_exists($imgPath)){
+                if(empty($image) or !file_exists($imgPath)){
                     $imgPath = 'uploads/default.jpg';
                 }
 
