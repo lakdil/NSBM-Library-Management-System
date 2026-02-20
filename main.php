@@ -19,6 +19,15 @@ $literature = $conn->query("SELECT * FROM litbooks WHERE status='available'");
 <!DOCTYPE html>
 <html>
 <head>
+    <style>
+body {
+    background-image: url('laki.jpg'); 
+    background-size: cover;     
+    background-size:cover;     
+    background-repeat: no-repeat;
+    background-position: center;
+}
+</style>
 <title>Main Page</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
