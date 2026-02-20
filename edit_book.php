@@ -5,20 +5,20 @@ ini_set('display_errors', 1);
 include("db.php");
 
 $librarian_password = "admin123";
+$message = "";
 
 if(isset($_POST['update'])){
 
-    $book_name = $_POST['book_name'];
-    $author = $_POST['author'];
-    $quantity = $_POST['quantity'];
-    $image = $_POST['image'];
+    $book_name = $conn->real_escape_string($_POST['book_name']);
+    $author = $conn->real_escape_string($_POST['author']);
+    $quantity = $conn->real_escape_string($_POST['quantity']);
+    $image = $conn->real_escape_string($_POST['image']);
     $password = $_POST['password'];
 
     if($password != $librarian_password){
-        echo "<script>alert('Wrong Librarian Password ❌');</script>";
+        $message = "<div class='text-red-300 font-semibold text-center'>Wrong Librarian Password</div>";
     } else {
 
-       
         $conn->query("UPDATE novelbooks 
                       SET author='$author', quantity='$quantity', image='$image' 
                       WHERE book_name='$book_name'");
@@ -31,72 +31,102 @@ if(isset($_POST['update'])){
                       SET author='$author', quantity='$quantity', image='$image' 
                       WHERE book_name='$book_name'");
 
-        echo "<script>alert('Book Updated Successfully ✅');</script>";
+        $message = "<div class='text-green-300 font-semibold text-center'>Book Updated Successfully</div>";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Edit Book</title>
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>Library Management - Edit Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-8">
 
-<div class="bg-white p-6 rounded shadow w-96 mx-auto">
+<body class="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
+      style="background-image: url('images/library-bg.jpg');">
 
-<h2 class="text-xl font-bold mb-4 text-center text-blue-600">
-Edit Book Details
-</h2>
+      <div class="absolute inset-0 bg-black/60"></div>
 
-<form method="POST">
+    <div class="relative bg-white/20 backdrop-blur-xl p-10 rounded-3xl 
+                shadow-2xl w-96 max-w-full border border-white/30">
 
-    <input type="text" 
-           name="book_name"
-           placeholder="Enter Book Name"
-           class="w-full p-2 border mb-3 rounded"
-           required>
+        <div class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-white drop-shadow-lg">
+                Library Management
+            </h1>
+            <p class="text-indigo-100 mt-2 text-sm">
+                Update Book Information
+            </p>
+        </div>
 
-    <input type="text" 
-           name="author"
-           placeholder="New Author"
-           class="w-full p-2 border mb-3 rounded"
-           required>
+        <div class="mb-4">
+            <?php echo $message; ?>
+        </div>
 
-    <input type="number" 
-           name="quantity"
-           placeholder="New Quantity"
-           class="w-full p-2 border mb-3 rounded"
-           required>
+        <form method="POST" class="space-y-4">
 
-    <input type="text" 
-           name="image"
-           placeholder="New Image URL"
-           class="w-full p-2 border mb-3 rounded"
-           required>
+            <input type="text"
+                   name="book_name"
+                   placeholder="Enter Book Name"
+                   class="w-full p-4 rounded-xl bg-white/30 text-white
+                          placeholder-white/70 border border-white/40
+                          focus:outline-none focus:ring-4 focus:ring-blue-400"
+                   required>
 
-    <input type="password" 
-           name="password"
-           placeholder="Librarian Password"
-           class="w-full p-2 border mb-3 rounded"
-           required>
+            <input type="text"
+                   name="author"
+                   placeholder="New Author"
+                   class="w-full p-4 rounded-xl bg-white/30 text-white
+                          placeholder-white/70 border border-white/40
+                          focus:outline-none focus:ring-4 focus:ring-blue-400"
+                   required>
 
-    <button type="submit" 
-            name="update"
-            class="bg-blue-600 text-white p-2 w-full rounded hover:bg-blue-700">
-        Update Book
-    </button>
+            <input type="number"
+                   name="quantity"
+                   placeholder="New Quantity"
+                   class="w-full p-4 rounded-xl bg-white/30 text-white
+                          placeholder-white/70 border border-white/40
+                          focus:outline-none focus:ring-4 focus:ring-blue-400"
+                   required>
 
-    <button type="button"
-    onclick="window.location='main.php'"
-    class="mt-4 bg-indigo-500 text-white p-2 w-full rounded">
-    Back
-    </button>
+            <input type="text"
+                   name="image"
+                   placeholder="New Image Name (example.jpg)"
+                   class="w-full p-4 rounded-xl bg-white/30 text-white
+                          placeholder-white/70 border border-white/40
+                          focus:outline-none focus:ring-4 focus:ring-blue-400"
+                   required>
 
-</form>
+            <input type="password"
+                   name="password"
+                   placeholder="Librarian Password"
+                   class="w-full p-4 rounded-xl bg-white/30 text-white
+                          placeholder-white/70 border border-white/40
+                          focus:outline-none focus:ring-4 focus:ring-red-400"
+                   required>
 
-</div>
+            <button type="submit"
+                    name="update"
+                    class="w-full bg-gradient-to-r from-blue-500 to-indigo-600
+                           hover:from-indigo-600 hover:to-blue-500
+                           text-white p-4 rounded-xl font-semibold
+                           shadow-lg transform hover:scale-105 transition duration-300">
+                           Update Book
+            </button>
+
+            <button type="button"
+                    onclick="window.location='main.php'"
+                    class="w-full bg-gradient-to-r from-emerald-400 to-teal-500
+                           hover:from-teal-500 hover:to-emerald-400
+                           text-white p-4 rounded-xl font-semibold
+                           shadow-lg transform hover:scale-105 transition duration-300">
+                           Back to Dashboard
+            </button>
+
+        </form>
+    </div>
 
 </body>
 </html>
