@@ -34,51 +34,51 @@ html, body {
     height: 100%;
     margin: 0;
 }
-
 body {
     background-image: url('deletebookpic.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed; 
+    background-attachment: fixed;
 }
 </style>
 </head>
 <body class="bg-gray-100 p-8">
 
-<div class="bg-white p-6 rounded shadow w-96 mx-auto">
 
-<h2 class="text-xl font-bold mb-4 text-center text-red-600">
-Delete Book
-</h2>
+<div class="bg-amber-100 p-6 rounded shadow w-96 mx-auto mt-32">
 
-<form method="POST">
-
-    <input type="text" 
-           name="book_name"
-           placeholder="Enter Book Name"
-           class="w-full p-2 border mb-3 rounded"
-           required>
-
-    <input type="password" 
-           name="password"
-           placeholder="Librarian Password"
-           class="w-full p-2 border mb-3 rounded"
-           required>
-
-    <button type="submit" 
-            name="delete"
-            class="bg-red-600 text-white p-2 w-full rounded hover:bg-red-700">
+    <h2 class="text-xl font-bold mb-4 text-center text-red-600">
         Delete Book
-    </button>
+    </h2>
 
-    <button type="button"
-    onclick="window.location='main.php'"
-    class="mt-4 bg-indigo-500 text-white p-2 w-full rounded">
-    Back
-    </button>
+    <form method="POST">
 
-</form>
+        <input type="text" 
+               name="book_name"
+               placeholder="Enter Book Name"
+               class="w-full p-2 border mb-3 rounded"
+               required>
+
+        <input type="password" 
+               name="password"
+               placeholder="Librarian Password"
+               class="w-full p-2 border mb-3 rounded"
+               required>
+
+        <button type="submit" 
+                name="delete"
+                class="bg-red-600 text-white p-2 w-full rounded hover:bg-red-700">
+            Delete Book
+        </button>
+
+        <button type="button"
+                onclick="window.location='main.php'"
+                class="mt-4 bg-indigo-500 text-white p-2 w-full rounded hover:bg-indigo-600">
+            Back
+        </button>
+
+    </form>
 
 </div>
 
