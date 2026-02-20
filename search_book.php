@@ -65,6 +65,7 @@ if(isset($_POST['search'])){
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
+
 <body class="bg-gray-100 p-8 bg-cover bg-center" 
       style="background-image: url('searchbook.jpg');">
 
