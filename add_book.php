@@ -36,7 +36,15 @@ if(isset($_POST['add'])){
 
 <!DOCTYPE html>
 <html>
-<head>
+<head><style>
+body {
+    background-image: url('book.jpg'); 
+    background-size: cover;     
+    background-size:cover;     
+    background-repeat: no-repeat;
+    background-position: center;
+}
+</style>
 <title>Add Book</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
