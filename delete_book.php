@@ -15,7 +15,6 @@ if(isset($_POST['delete'])){
         echo "<script>alert('Wrong Librarian Password ❌');</script>";
     } else {
 
-        // Delete from all 3 tables
         $conn->query("DELETE FROM novelbooks WHERE book_name='$book_name'");
         $conn->query("DELETE FROM educationbooks WHERE book_name='$book_name'");
         $conn->query("DELETE FROM litbooks WHERE book_name='$book_name'");
@@ -30,6 +29,14 @@ if(isset($_POST['delete'])){
 <head>
 <title>Delete Book</title>
 <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+body {
+    background-image: url('deletebookpic.jpg'); 
+    background-size:cover;     
+    background-repeat: no-repeat;
+    background-position: center;
+}
+</style>
 </head>
 <body class="bg-gray-100 p-8">
 

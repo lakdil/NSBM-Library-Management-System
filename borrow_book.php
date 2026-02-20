@@ -46,6 +46,7 @@ if($books_result->num_rows > 0){
 <head>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Borrow Book</title>
+
 </head>
 <body class="bg-gray-100 p-8">
 
