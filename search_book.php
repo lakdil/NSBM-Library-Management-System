@@ -67,7 +67,7 @@ if(isset($_POST['search'])){
 </head>
 
 <body class="min-h-screen flex flex-col items-center justify-start bg-cover bg-center bg-no-repeat p-10"
-      style="background-image: url('images/library-bg.jpg');">
+      style="background-image: url('searchbook.jpg');">
 
     <div class="absolute inset-0 bg-black/60 -z-10"></div>
 
