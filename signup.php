@@ -21,7 +21,7 @@ if(isset($_POST['signup'])){
             $sql = "INSERT INTO users (username, password, role)
                     VALUES ('$username', '$password', '$role')";
             if($conn->query($sql) === TRUE){
-                echo "<script>alert('Signup Successful!'); window.location='index.php';</script>";
+                echo "<script>alert('Signup Successful!'); window.location='index1.php';</script>";
             } else {
                 echo "Error: " . $conn->error;
             }
