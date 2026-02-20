@@ -29,7 +29,7 @@ if(isset($_POST['delete'])){
 <head>
 <title>Delete Book</title>
 <script src="https://cdn.tailwindcss.com"></script>
-        <style>
+<style>
 body {
     background-image: url('deletebookpic.jpg'); 
     background-size:cover;     
