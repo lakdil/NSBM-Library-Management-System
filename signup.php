@@ -55,6 +55,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
 }
+
 </style>
 </head>
 <body class="bg-gray-100 flex justify-center items-center h-screen">
