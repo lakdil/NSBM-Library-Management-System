@@ -53,7 +53,7 @@ if(isset($_POST['search'])){
         }
 
     } else {
-        $resultHTML = "<div class='text-red-600 font-bold text-center'>Book Not Found ❌</div>";
+        $resultHTML = "<div class='text-red-600 font-bold text-center'>Book Not Found</div>";
     }
 }
 ?>
@@ -65,9 +65,10 @@ if(isset($_POST['search'])){
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 p-8">
+<body class="bg-gray-100 p-8 bg-cover bg-center" 
+      style="background-image: url('searchbook.jpg');">
 
-<div class="bg-white p-6 rounded shadow w-96 mx-auto">
+<div class="bg-white/90 p-6 rounded shadow w-96 mx-auto backdrop-blur-sm">
 
     <h2 class="text-xl font-bold mb-4 text-center">Search Book</h2>
 
