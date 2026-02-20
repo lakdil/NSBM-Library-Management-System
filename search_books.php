@@ -39,8 +39,13 @@ if(isset($_POST['search'])){
                 $image = $row['image'];
 
                 $imgPath = 'uploads/' . $image;
+<<<<<<< HEAD
                 if(empty($image) or !file_exists($imgPath)){
                     $imgPath = 'laki.jpg';
+=======
+                if(empty($image) || !file_exists($imgPath)){
+                    $imgPath = 'uploads/default.jpg';
+>>>>>>> parent of 153cf19 (test1)
                 }
 
                 $resultHTML .= "
