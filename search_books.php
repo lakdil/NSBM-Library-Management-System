@@ -111,7 +111,7 @@ if(isset($_POST['search'])){
                            text-white p-4 rounded-xl font-semibold
                            shadow-lg transform hover:scale-105
                            transition duration-300">
-                ⬅ Back to Dashboard
+                           Back to Dashboard
             </button>
 
         </form>
