@@ -19,6 +19,7 @@ input {
 
 <div class="bg-white p-6 rounded shadow w-96 mx-auto mb-6">
     <h2 class="text-xl font-bold mb-4">Fine Calculator</h2>
+    
 
     
     <input type="number" id="days" placeholder="Late Days">
