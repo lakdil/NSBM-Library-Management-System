@@ -55,7 +55,7 @@ $literature = $conn->query("SELECT book_name FROM litbooks WHERE quantity > 0");
             shadow-2xl w-96 max-w-full border border-white/30">
 
     <h1 class="text-3xl font-bold text-center text-white drop-shadow-lg mb-8">
-          Borrow Book
+         Borrow Book
     </h1>
 
     <form method="POST" class="space-y-5">
