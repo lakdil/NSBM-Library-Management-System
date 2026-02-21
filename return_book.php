@@ -87,7 +87,7 @@ if(isset($_POST['return_book'])){
 </head>
 
 <body class="min-h-screen flex flex-col items-center justify-start bg-cover bg-center bg-no-repeat p-10"
-      style="background-image: url('returnbook.jpg');">
+      style="background-image: url('retn.jpg');">
 
 <div class="absolute inset-0 bg-black/60 -z-10"></div>
 
