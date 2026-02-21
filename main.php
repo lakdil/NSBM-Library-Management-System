@@ -41,14 +41,21 @@ $literature = $conn->query("SELECT * FROM litbooks WHERE status='available'");
     <a href="return_book.php" class="hover:text-yellow-300">Return Book</a>
 <?php } ?>
 
-    <a href="search_book.php" class="hover:text-yellow-300">Search Book</a>
-    <a href="borrow_book.php" class="hover:text-yellow-300">Borrow Book</a>
-    <a href="fine_calculator.php" class="hover:text-yellow-300">Fine Calculator</a>
-    <a href="logout.php" class="text-red-400 hover:text-red-600">Logout</a>
+<?php if($role== "student"){?>
+    <a href="borrow_book.php" class="text-blue-600 hover:underline">Borrow Book</a>
+<?php}?>
 
-    <a href="profile.php" class="ml-4 bg-blue-600 px-4 py-1 rounded-full hover:bg-blue-700">
-        Profile
+<a href="search_book.php" class="text-blue-600 hover:underline">Search Book</a>
+<a href="fine_calculator.php" class="text-blue-600 hover:underline">Fine Calculator</a>
+<a href="logout.php" class="text-red-600 hover:underline">Logout</a>
+<div class="absolute top-4 right-6">
+    <a href="profile.php">
+        <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-700">
+            👤
+        </div>
     </a>
+</div>
+
 </nav>
 
 <div class="p-10">
