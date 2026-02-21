@@ -38,7 +38,7 @@ if(isset($_POST['delete'])){
 </head>
 
 <body class="min-h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
-      style="background-image: url('deletebook.jpg');">
+      style="background-image: url('dlt.jpg');">
 
     <div class="absolute inset-0 bg-black/60 -z-10"></div>
 
