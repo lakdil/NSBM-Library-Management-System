@@ -25,7 +25,7 @@ $literature = $conn->query("SELECT * FROM litbooks WHERE status='available'");
 </head>
 
 <body class="min-h-screen bg-cover bg-center bg-fixed"
-      style="background-image: url('sample.jpg');">
+      style="background-image: url('homeimage.jpg');">
 
 <div class="absolute inset-0 bg-black/70 -z-10"></div>
 
