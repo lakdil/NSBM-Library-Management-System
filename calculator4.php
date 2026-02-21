@@ -1,59 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>Library Management - Fine & Date Calculator</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="style.css">
-
-<style>
-input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
-}
-</style>
-
 </head>
-<body class="bg-gray-100 p-8">
 
+<body class="min-h-screen bg-cover bg-center bg-no-repeat p-10"
+      style="background-image: url('calimg.jpg');">
 
-<div class="bg-white p-6 rounded shadow w-96 mx-auto mb-6">
-    <h2 class="text-xl font-bold mb-4">Fine Calculator</h2>
+<div class="absolute inset-0 bg-black/60 -z-10"></div>
+
+<h1 class="text-4xl text-center text-white font-bold mb-12 drop-shadow-lg">
+    Fine & Date Calculator
+</h1>
+
+<div class="flex flex-col md:flex-row gap-10 justify-center items-start">
 
     
-    <input type="number" id="days" placeholder="Late Days">
+    <div class="bg-white/20 backdrop-blur-xl p-8 rounded-3xl 
+                shadow-2xl w-full md:w-96 border border-white/30">
 
-    <button onclick="calculateFine()"
-    class="bg-blue-600 text-white p-2 w-full rounded mt-3">
-    Calculate
-    </button>
+        <h2 class="text-2xl text-white font-bold text-center mb-6">
+            Fine Calculator
+        </h2>
 
-    <p id="fineResult" class="mt-3 font-bold text-center"></p>
+        <input type="number"
+               id="days"
+               placeholder="Enter Late Days"
+               class="w-full p-4 rounded-xl bg-white/30 text-white
+                      placeholder-white/70 border border-white/40
+                      focus:outline-none focus:ring-4 focus:ring-blue-400
+                      transition duration-300">
+
+        <button onclick="calculateFine()"
+                class="w-full mt-6 bg-gradient-to-r from-blue-500 to-indigo-600
+                       hover:from-indigo-600 hover:to-blue-500
+                       text-white p-4 rounded-xl font-semibold
+                       shadow-lg transform hover:scale-105
+                       transition duration-300">
+            Calculate Fine
+        </button>
+
+        <p id="fineResult"
+           class="mt-6 font-bold text-center text-green-300 text-lg"></p>
+    </div>
+
+
+    
+    <div class="bg-white/20 backdrop-blur-xl p-8 rounded-3xl 
+                shadow-2xl w-full md:w-96 border border-white/30">
+
+        <h2 class="text-2xl text-white font-bold text-center mb-6">
+            Date Difference Calculator
+        </h2>
+
+        <label class="text-white font-semibold">Enter Date 1</label>
+        <input type="date"
+               id="dateInput1"
+               class="w-full p-4 rounded-xl bg-white/30 text-white
+                      border border-white/40 mt-2 mb-4
+                      focus:outline-none focus:ring-4 focus:ring-green-400">
+
+        <label class="text-white font-semibold">Enter Date 2</label>
+        <input type="date"
+               id="dateInput2"
+               class="w-full p-4 rounded-xl bg-white/30 text-white
+                      border border-white/40 mt-2">
+
+        <button onclick="dateDiff()"
+                class="w-full mt-6 bg-gradient-to-r from-green-500 to-emerald-600
+                       hover:from-emerald-600 hover:to-green-500
+                       text-white p-4 rounded-xl font-semibold
+                       shadow-lg transform hover:scale-105
+                       transition duration-300">
+            Calculate Days
+        </button>
+
+        <p id="dateResult"
+           class="text-center font-bold mt-6 text-yellow-300 text-lg"></p>
+
+        <button onclick="back()"
+                class="w-full mt-6 bg-gradient-to-r from-emerald-400 to-teal-500
+                       hover:from-teal-500 hover:to-emerald-400
+                       text-white p-4 rounded-xl font-semibold
+                       shadow-lg transform hover:scale-105
+                       transition duration-300">
+            Back to Dashboard
+        </button>
+    </div>
+
 </div>
 
-<div class="bg-white p-6 rounded shadow w-96 mx-auto">
-    <h2 class="text-red-600 text-center font-bold mb-4">
-        Calculate days between two given dates
-    </h2>
-
-    <label><b>Enter date1</b></label>
-    <input type="date" id="dateInput1">
-
-    <label class="mt-3 block"><b>Enter date2</b></label>
-    <input type="date" id="dateInput2">
-
-    <button onclick="dateDiff()" 
-    class="bg-green-600 text-white p-2 w-full rounded mt-4">
-    Calculate number of days
-    </button>
-
-    <button type="button" onclick="back()"
-    class="px-3 py-1.5 text-white bg-indigo-500 rounded-lg hover:bg-indigo-700 w-full mt-3">
-    Back
-    </button>
-
-    <h3 id="dateResult" class="text-center font-bold mt-4"></h3>
-</div>
 
 <script>
 function back(){
@@ -62,20 +99,40 @@ function back(){
 
 function calculateFine(){
     let days = document.getElementById("days").value;
+
+    if(days === "" || days < 0){
+        document.getElementById("fineResult").innerHTML =
+        "Please enter valid late days.";
+        return;
+    }
+
     let fine = days * 10;
+
     document.getElementById("fineResult").innerHTML =
-    "Total Fine: Rs." + fine;
+    "Total Fine: Rs. " + fine;
 }
 
 function dateDiff(){
-    var dateI1 = document.getElementById("dateInput1").value;
-    var dateI2 = document.getElementById("dateInput2").value;
+    let dateI1 = document.getElementById("dateInput1").value;
+    let dateI2 = document.getElementById("dateInput2").value;
 
-    var date1 = new Date(dateI1);
-    var date2 = new Date(dateI2);
+    if(!dateI1 || !dateI2){
+        document.getElementById("dateResult").innerHTML =
+        "Please select both dates.";
+        return;
+    }
 
-    var time_difference = date2.getTime() - date1.getTime();
-    var result = time_difference / (1000 * 60 * 60 * 24);
+    let date1 = new Date(dateI1);
+    let date2 = new Date(dateI2);
+
+    let time_difference = date2.getTime() - date1.getTime();
+    let result = Math.ceil(time_difference / (1000 * 60 * 60 * 24));
+
+    if(result < 0){
+        document.getElementById("dateResult").innerHTML =
+        "Date 2 must be after Date 1.";
+        return;
+    }
 
     document.getElementById("dateResult").innerHTML =
     result + " days between both dates.";
