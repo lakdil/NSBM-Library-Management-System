@@ -16,7 +16,6 @@
 
 <div class="flex flex-col md:flex-row gap-10 justify-center items-start">
 
-    
     <div class="bg-white/20 backdrop-blur-xl p-8 rounded-3xl 
                 shadow-2xl w-full md:w-96 border border-white/30">
 
