@@ -1,30 +1,46 @@
-<?php 
+<?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 include("db.php");
 
+
+session_start();
+if(!isset($_SESSION['role']) || $_SESSION['role'] != "librarian"){
+    header("Location: main.php");
+    exit();
+}
+
+$librarian_password = "admin123"; 
 $message = "";
 
 if(isset($_POST['delete'])){
 
-    $book_name = $conn->real_escape_string($_POST['book_name']);
+    $book_name = trim($_POST['book_name']);
+    $password = $_POST['password'];
 
-    $deleted = false;
-
-    $tables = ['novelbooks', 'educationbooks', 'litbooks'];
-
-    foreach($tables as $table){
-        $result = $conn->query("DELETE FROM $table WHERE book_name='$book_name'");
-        if($result && $conn->affected_rows > 0){
-            $deleted = true;
-        }
-    }
-
-    if($deleted){
-        $message = "<div class='text-green-300 font-semibold text-center'>Book Deleted Successfully</div>";
+    if($password !== $librarian_password){
+        $message = "<div class='text-red-300 font-semibold text-center'>Wrong Librarian Password</div>";
     } else {
-        $message = "<div class='text-red-300 font-semibold text-center'>Book Not Found</div>";
+
+        $deleted = false;
+        $tables = ['novelbooks', 'educationbooks', 'litbooks'];
+
+        foreach($tables as $table){
+            $stmt = $conn->prepare("DELETE FROM $table WHERE book_name=?");
+            $stmt->bind_param("s", $book_name);
+            $stmt->execute();
+
+            if($stmt->affected_rows > 0){
+                $deleted = true;
+            }
+        }
+
+        if($deleted){
+            $message = "<div class='text-green-300 font-semibold text-center'>Book Deleted Successfully ✅</div>";
+        } else {
+            $message = "<div class='text-red-300 font-semibold text-center'>Book Not Found ❌</div>";
+        }
     }
 }
 ?>
@@ -37,7 +53,7 @@ if(isset($_POST['delete'])){
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
+<body class="h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
       style="background-image: url('deletebook.jpg');">
 
     <div class="absolute inset-0 bg-black/60 -z-10"></div>
@@ -54,10 +70,10 @@ if(isset($_POST['delete'])){
             </p>
         </div>
 
-        <div class="mb-4">
-            <?php echo $message; ?>
-        </div>
+        
+        <?php if($message) echo "<div class='mb-4'>$message</div>"; ?>
 
+     
         <form method="POST" class="space-y-4">
 
             <input type="text"
@@ -68,13 +84,20 @@ if(isset($_POST['delete'])){
                           focus:outline-none focus:ring-4 focus:ring-red-400"
                    required>
 
+            <input type="password"
+                   name="password"
+                   placeholder="Librarian Special Password"
+                   class="w-full p-4 rounded-xl bg-white/30 text-white
+                          placeholder-white/70 border border-white/40
+                          focus:outline-none focus:ring-4 focus:ring-red-400"
+                   required>
+
             <button type="submit"
                     name="delete"
                     class="w-full bg-gradient-to-r from-red-500 to-rose-600
                            hover:from-rose-600 hover:to-red-500
                            text-white p-4 rounded-xl font-semibold
-                           shadow-lg transform hover:scale-105
-                           transition duration-300">
+                           shadow-lg transform hover:scale-105 transition duration-300">
                            Delete Book
             </button>
 
@@ -83,8 +106,7 @@ if(isset($_POST['delete'])){
                     class="w-full bg-gradient-to-r from-blue-500 to-indigo-600
                            hover:from-indigo-600 hover:to-blue-500
                            text-white p-4 rounded-xl font-semibold
-                           shadow-lg transform hover:scale-105
-                           transition duration-300">
+                           shadow-lg transform hover:scale-105 transition duration-300">
                            Back to Dashboard
             </button>
 
