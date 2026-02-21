@@ -44,8 +44,6 @@ $literature = $conn->query("SELECT * FROM litbooks WHERE status='available'");
         </a>
     </div>
 </div>
-
-
 <nav class="bg-white/20 backdrop-blur-lg shadow-lg p-4 flex flex-wrap gap-6 justify-center text-white font-medium">
 
 <?php if($role == "librarian"){ ?>
