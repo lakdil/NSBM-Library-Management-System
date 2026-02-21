@@ -59,7 +59,7 @@ $literature = $conn->query("SELECT * FROM litbooks WHERE status='available'");
 <?php } ?>
 
 <a href="search_book.php" class="hover:text-yellow-300">Search Book</a>
-<a href="fine_calculator.php" class="hover:text-yellow-300">Fine Calculator</a>
+<a href="calculator4.php" class="hover:text-yellow-300">Fine Calculator</a>
 <a href="logout.php" class="text-red-400 hover:text-red-600">Logout</a>
 
 </nav>
