@@ -50,7 +50,7 @@ $literature = $conn->query("SELECT book_name FROM litbooks WHERE quantity > 0");
 </head>
 <body class="min-h-screen bg-gray-900 flex items-center justify-center">
 
-<!-- Full Screen Background Image -->
+
 <div class="absolute inset-0 bg-cover bg-center -z-10" 
      style="background-image: url('borrowbook.jpg');"></div>
 <div class="absolute inset-0 bg-black/60 -z-10"></div>
