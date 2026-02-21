@@ -31,7 +31,6 @@ input {
     <p id="fineResult" class="mt-3 font-bold text-center"></p>
 </div>
 
-
 <div class="bg-white p-6 rounded shadow w-96 mx-auto">
     <h2 class="text-red-600 text-center font-bold mb-4">
         Calculate days between two given dates
