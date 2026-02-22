@@ -77,7 +77,7 @@ if(isset($_POST['update'])){
 
             <input type="text"
                    name="author"
-                   placeholder="New Author"
+                   placeholder=" Author"
                    class="w-full p-4 rounded-xl bg-white/30 text-white
                           placeholder-white/70 border border-white/40
                           focus:outline-none focus:ring-4 focus:ring-blue-400"
@@ -93,7 +93,7 @@ if(isset($_POST['update'])){
 
             <input type="text"
                    name="image"
-                   placeholder="New Image Name (example.jpg)"
+                   placeholder="Image Name (example.jpg)"
                    class="w-full p-4 rounded-xl bg-white/30 text-white
                           placeholder-white/70 border border-white/40
                           focus:outline-none focus:ring-4 focus:ring-blue-400"
