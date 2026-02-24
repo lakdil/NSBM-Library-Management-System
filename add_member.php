@@ -131,6 +131,7 @@ function calculateOverdue(){
     if(totalDays <= freeDays){
         document.getElementById("dateResult").innerHTML =
         "Returned within 14 days. No fine 🎉";
+        
     } 
     else {
 
