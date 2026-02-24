@@ -12,19 +12,19 @@ if(isset($_POST['search'])){
     $book = $conn->real_escape_string($_POST['book_name']);
 
     $sql = "
-    SELECT book_name, author, image, 'Novel' AS category 
+    SELECT book_name, author, image, quantity, 'Novel' AS category 
     FROM novelbooks 
     WHERE book_name LIKE '%$book%'
 
     UNION
 
-    SELECT book_name, author, image, 'Education' AS category 
+    SELECT book_name, author, image, quantity, 'Education' AS category 
     FROM educationbooks 
     WHERE book_name LIKE '%$book%'
 
     UNION
 
-    SELECT book_name, author, image, 'Literature' AS category 
+    SELECT book_name, author, image, quantity, 'Literature' AS category 
     FROM litbooks 
     WHERE book_name LIKE '%$book%'
     ";
@@ -39,6 +39,14 @@ if(isset($_POST['search'])){
             $author = htmlspecialchars($row['author']);
             $category = $row['category'];
             $image = htmlspecialchars($row['image']);
+            $quantity = (int)$row['quantity'];
+
+            
+            if($quantity > 0){
+                $availability = "<span class='text-green-300 font-bold'>Available ($quantity copies)</span>";
+            } else {
+                $availability = "<span class='text-red-300 font-bold'>Out of Stock</span>";
+            }
 
             $resultHTML .= "
             <div class='bg-white/30 backdrop-blur-md p-5 rounded-2xl shadow-lg border border-white/40 mb-5'>
@@ -48,6 +56,7 @@ if(isset($_POST['search'])){
                 <p class='text-white'><strong>Book Name:</strong> $bookName</p>
                 <p class='text-white'><strong>Author:</strong> $author</p>
                 <p class='text-white'><strong>Category:</strong> $category</p>
+                <p class='text-white'><strong>Status:</strong> $availability</p>
             </div>
             ";
         }
@@ -91,7 +100,7 @@ if(isset($_POST['search'])){
                    class="w-full p-4 rounded-xl bg-white/30 text-white
                           placeholder-white/70 border border-white/40
                           focus:outline-none focus:ring-4 focus:ring-blue-400
-                          focus:border-transparent transition duration-300"
+                          transition duration-300"
                    required>
 
             <button type="submit"
