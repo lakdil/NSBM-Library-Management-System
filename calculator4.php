@@ -1,58 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>Library Management - Fine & Overdue Calculator</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="style.css">
-
-<style>
-input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
-}
-</style>
-
 </head>
-<body class="bg-gray-100 p-8">
 
+<body class="min-h-screen bg-cover bg-center bg-no-repeat p-10"
+      style="background-image: url('calimg.jpg');">
 
-<div class="bg-white p-6 rounded shadow w-96 mx-auto mb-6">
-    <h2 class="text-xl font-bold mb-4">Fine Calculator</h2>
+<div class="absolute inset-0 bg-black/60 -z-10"></div>
 
-    
-    <input type="number" id="days" placeholder="Late Days">
+<h1 class="text-4xl text-center text-white font-bold mb-12 drop-shadow-lg">
+    Fine & Overdue Calculator
+</h1>
 
-    <button onclick="calculateFine()"
-    class="bg-blue-600 text-white p-2 w-full rounded mt-3">
-    Calculate
-    </button>
+<div class="flex flex-col md:flex-row gap-10 justify-center items-start">
 
-    <p id="fineResult" class="mt-3 font-bold text-center"></p>
-</div>
+   35r45A
+    <div class="bg-white/20 backdrop-blur-xl p-8 rounded-3xl 
+                shadow-2xl w-full md:w-96 border border-white/30">
 
-<div class="bg-white p-6 rounded shadow w-96 mx-auto">
-    <h2 class="text-red-600 text-center font-bold mb-4">
-        Calculate days between two given dates
-    </h2>
+        <h2 class="text-2xl text-white font-bold text-center mb-6">
+            Manual Fine Calculator
+        </h2>
 
-    <label><b>Enter date1</b></label>
-    <input type="date" id="dateInput1">
+        <input type="number"
+               id="days"
+               placeholder="Enter Late Days"
+               class="w-full p-4 rounded-xl bg-white/30 text-white
+                      placeholder-white/70 border border-white/40
+                      focus:outline-none focus:ring-4 focus:ring-blue-400">
 
-    <label class="mt-3 block"><b>Enter date2</b></label>
-    <input type="date" id="dateInput2">
+        <button onclick="calculateFine()"
+                class="w-full mt-6 bg-gradient-to-r from-blue-500 to-indigo-600
+                       text-white p-4 rounded-xl font-semibold
+                       shadow-lg hover:scale-105 transition duration-300">
+            Calculate Fine
+        </button>
 
-    <button onclick="dateDiff()" 
-    class="bg-green-600 text-white p-2 w-full rounded mt-4">
-    Calculate number of days
-    </button>
+        <p id="fineResult"
+           class="mt-6 font-bold text-center text-green-300 text-lg"></p>
+    </div>
 
-    <button type="button" onclick="back()"
-    class="px-3 py-1.5 text-white bg-indigo-500 rounded-lg hover:bg-indigo-700 w-full mt-3">
-    Back
-    </button>
+   
+    <div class="bg-white/20 backdrop-blur-xl p-8 rounded-3xl 
+                shadow-2xl w-full md:w-96 border border-white/30">
 
-    <h3 id="dateResult" class="text-center font-bold mt-4"></h3>
+        <h2 class="text-2xl text-white font-bold text-center mb-6">
+            Borrow & Return Calculator
+        </h2>
+
+        <label class="text-white font-semibold">Borrow Date</label>
+        <input type="date"
+               id="borrowDate"
+               class="w-full p-4 rounded-xl bg-white/30 text-white
+                      border border-white/40 mt-2 mb-4">
+
+        <label class="text-white font-semibold">Return Date</label>
+        <input type="date"
+               id="returnDate"
+               class="w-full p-4 rounded-xl bg-white/30 text-white
+                      border border-white/40 mt-2">
+
+        <button onclick="calculateOverdue()"
+                class="w-full mt-6 bg-gradient-to-r from-green-500 to-emerald-600
+                       text-white p-4 rounded-xl font-semibold
+                       shadow-lg hover:scale-105 transition duration-300">
+            Calculate Overdue & Fine
+        </button>
+
+        <p id="dateResult"
+           class="text-center font-bold mt-6 text-yellow-300 text-lg"></p>
+
+        <button onclick="back()"
+                class="w-full mt-6 bg-gradient-to-r from-emerald-400 to-teal-500
+                       text-white p-4 rounded-xl font-semibold
+                       shadow-lg hover:scale-105 transition duration-300">
+            Back to Dashboard
+        </button>
+    </div>
+
 </div>
 
 <script>
@@ -62,23 +89,58 @@ function back(){
 
 function calculateFine(){
     let days = document.getElementById("days").value;
+
+    if(days === "" || days < 0){
+        document.getElementById("fineResult").innerHTML =
+        "Please enter valid late days.";
+        return;
+    }
+
     let fine = days * 10;
+
     document.getElementById("fineResult").innerHTML =
-    "Total Fine: Rs." + fine;
+    "Total Fine: Rs. " + fine;
 }
 
-function dateDiff(){
-    var dateI1 = document.getElementById("dateInput1").value;
-    var dateI2 = document.getElementById("dateInput2").value;
+function calculateOverdue(){
 
-    var date1 = new Date(dateI1);
-    var date2 = new Date(dateI2);
+    let borrow = document.getElementById("borrowDate").value;
+    let returned = document.getElementById("returnDate").value;
 
-    var time_difference = date2.getTime() - date1.getTime();
-    var result = time_difference / (1000 * 60 * 60 * 24);
+    if(!borrow || !returned){
+        document.getElementById("dateResult").innerHTML =
+        "Please select both dates.";
+        return;
+    }
 
-    document.getElementById("dateResult").innerHTML =
-    result + " days between both dates.";
+    let borrowDate = new Date(borrow);
+    let returnDate = new Date(returned);
+
+    let difference = returnDate.getTime() - borrowDate.getTime();
+    let totalDays = Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+    if(totalDays < 0){
+        document.getElementById("dateResult").innerHTML =
+        "Return date must be after borrow date.";
+        return;
+    }
+
+   
+    let freeDays = 14;
+
+    if(totalDays <= freeDays){
+        document.getElementById("dateResult").innerHTML =
+        "Returned within 14 days. No fine 🎉";
+    } 
+    else {
+
+        let overdueDays = totalDays - freeDays;
+        let fine = overdueDays * 10;
+
+        document.getElementById("dateResult").innerHTML =
+        "Overdue Days: " + overdueDays + 
+        "<br>Total Fine: Rs. " + fine;
+    }
 }
 </script>
 
