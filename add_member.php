@@ -15,26 +15,44 @@ if(isset($_POST['add'])){
     $phone = trim($_POST['phone']);
     $studentId = trim($_POST['StudentId']);
 
+<<<<<<< HEAD
     // ✅ Backend Validations
 
     // Check empty
+=======
+ 
+
+   
+>>>>>>> c24d4e6c166b2ba65e19c0426b9ff7ef7bc78729
     if(!$name || !$email || !$phone || !$studentId){
         $message = "⚠ Please fill all fields!";
     }
 
+<<<<<<< HEAD
     // Phone must be exactly 10 digits
+=======
+    
+>>>>>>> c24d4e6c166b2ba65e19c0426b9ff7ef7bc78729
     elseif(!preg_match("/^[0-9]{10}$/", $phone)){
         $message = "⚠ Phone number must be exactly 10 digits!";
     }
 
+<<<<<<< HEAD
     // Student ID must contain only numbers
+=======
+    
+>>>>>>> c24d4e6c166b2ba65e19c0426b9ff7ef7bc78729
     elseif(!preg_match("/^[0-9]+$/", $studentId)){
         $message = "⚠ Student ID must contain numbers only!";
     }
 
     else{
 
+<<<<<<< HEAD
         // Check duplicate Student ID or Email
+=======
+        
+>>>>>>> c24d4e6c166b2ba65e19c0426b9ff7ef7bc78729
         $stmt = $conn->prepare("SELECT id FROM members WHERE StudentId=? OR email=?");
         $stmt->bind_param("ss", $studentId, $email);
         $stmt->execute();
@@ -98,7 +116,11 @@ if(isset($_POST['add'])){
                       focus:outline-none focus:ring-4 focus:ring-blue-400
                       transition duration-300">
 
+<<<<<<< HEAD
         <!-- Phone: exactly 10 digits -->
+=======
+        
+>>>>>>> c24d4e6c166b2ba65e19c0426b9ff7ef7bc78729
         <input type="text" name="phone" placeholder="Phone (10 digits)"
                pattern="[0-9]{10}" maxlength="10" required
                class="w-full p-4 rounded-xl bg-white/30 text-white
@@ -106,7 +128,11 @@ if(isset($_POST['add'])){
                       focus:outline-none focus:ring-4 focus:ring-blue-400
                       transition duration-300">
 
+<<<<<<< HEAD
         <!-- Student ID: numbers only -->
+=======
+       
+>>>>>>> c24d4e6c166b2ba65e19c0426b9ff7ef7bc78729
         <input type="text" name="StudentId" placeholder="Student ID (Numbers Only)"
                pattern="[0-9]+" required
                class="w-full p-4 rounded-xl bg-white/30 text-white
