@@ -3,20 +3,32 @@ include("db.php");
 
 if(isset($_POST['signup'])){
 
-    $username = $_POST['username'];
+    $username = $conn->real_escape_string($_POST['username']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password']; 
     $role = $_POST['role'];
     $special_password = $_POST['special_password'] ?? '';
+    $student_id = $_POST['student_id'] ?? '';
 
-    if($password !== $confirm_password){
+    
+    if(strlen($password) < 8){
+        echo "<script>alert('Password must be at least 8 characters long!');</script>";
+    }
+
+    
+    elseif($password !== $confirm_password){
         echo "<script>alert('Passwords do not match!');</script>";
     }
 
-  
+    
     elseif($role === 'librarian' && $special_password !== 'admin'){
         echo "<script>alert('Invalid special password for librarian!');</script>";
-    } 
+    }
+
+    
+    elseif($role === 'student' && empty($student_id)){
+        echo "<script>alert('Student ID is required!');</script>";
+    }
 
     else {
 
@@ -27,9 +39,15 @@ if(isset($_POST['signup'])){
         } 
         else {
 
-          
-            $sql = "INSERT INTO users (username, password, role)
-                    VALUES ('$username', '$password', '$role')";
+            
+            if($role === 'student'){
+                $sql = "INSERT INTO users (username, password, role, student_id)
+                        VALUES ('$username', '$password', '$role', '$student_id')";
+            } else {
+                $sql = "INSERT INTO users (username, password, role, student_id)
+                        VALUES ('$username', '$password', '$role', NULL)";
+            }
+
             if($conn->query($sql) === TRUE){
                 echo "<script>alert('Signup Successful!'); window.location='index1.php';</script>";
             } 
@@ -48,10 +66,23 @@ if(isset($_POST['signup'])){
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
-        function toggleSpecialPassword() {
+        function toggleFields() {
             const role = document.getElementById('role').value;
             const specialDiv = document.getElementById('specialDiv');
-            specialDiv.style.display = (role === 'librarian') ? 'block' : 'none';
+            const studentDiv = document.getElementById('studentDiv');
+
+            if(role === 'librarian'){
+                specialDiv.style.display = 'block';
+                studentDiv.style.display = 'none';
+            } 
+            else if(role === 'student'){
+                specialDiv.style.display = 'none';
+                studentDiv.style.display = 'block';
+            } 
+            else {
+                specialDiv.style.display = 'none';
+                studentDiv.style.display = 'none';
+            }
         }
     </script>
 
@@ -75,25 +106,31 @@ if(isset($_POST['signup'])){
         <input type="text" name="username" placeholder="Username"
         class="w-full p-2 border rounded mb-3" required>
 
-        <input type="password" name="password" placeholder="Password"
-        class="w-full p-2 border rounded mb-3" required>
+        <input type="password" name="password" placeholder="Password (Min 8 characters)"
+        class="w-full p-2 border rounded mb-3" minlength="8" required>
 
-       
         <input type="password" name="confirm_password" placeholder="Confirm Password"
-        class="w-full p-2 border rounded mb-3" required>
+        class="w-full p-2 border rounded mb-3" minlength="8" required>
 
-   
         <select name="role" id="role"
         class="w-full p-2 border rounded mb-3"
-        onchange="toggleSpecialPassword()" required>
+        onchange="toggleFields()" required>
+            <option value="">Select Role</option>
             <option value="student">Student</option>
             <option value="librarian">Librarian</option>
         </select>
 
-    
+        
+        <div id="studentDiv" style="display:none;">
+            <input type="text" name="student_id"
+            placeholder="Enter Student ID"
+            class="w-full p-2 border rounded mb-3">
+        </div>
+
+        
         <div id="specialDiv" style="display:none;">
             <input type="password" name="special_password"
-            placeholder="Enter special password"
+            placeholder="Enter Special Password"
             class="w-full p-2 border rounded mb-3">
         </div>
 
