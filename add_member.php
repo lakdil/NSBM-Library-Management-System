@@ -1,125 +1,146 @@
-<?php
-session_start();
-include("db.php"); 
-
-
-if(!isset($_SESSION['role']) || $_SESSION['role'] != "librarian"){
-    header("Location: main.php");
-    exit();
-}
-
-$message = "";
-
-
-if(isset($_POST['add'])){
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
-    $phone = trim($_POST['phone']);
-    $studentId = trim($_POST['StudentId']);
-
- 
-    if($name && $email && $phone && $studentId){
-        
-        $stmt = $conn->prepare("SELECT id FROM members WHERE StudentId=? OR email=?");
-        $stmt->bind_param("ss", $studentId, $email);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if($stmt->num_rows > 0){
-            $message = "⚠ Member with this Student ID or Email already exists.";
-        } else {
-          
-            $stmt_insert = $conn->prepare("INSERT INTO members (name, email, phone, StudentId) VALUES (?, ?, ?, ?)");
-            $stmt_insert->bind_param("ssss", $name, $email, $phone, $studentId);
-
-            if($stmt_insert->execute()){
-                $message = "✅ Member added successfully!";
-            } else {
-                $message = "❌ Error: " . $conn->error;
-            }
-        }
-
-        $stmt->close();
-    } else {
-        $message = "⚠ Please fill all fields!";
-    }
-}
-?>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Add Member - Library</title>
+<title>Library Management - Fine & Overdue Calculator</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat p-10"
-      style="background-image: url('background.jpg');">
+<body class="min-h-screen bg-cover bg-center bg-no-repeat p-10"
+      style="background-image: url('calimg.jpg');">
 
 <div class="absolute inset-0 bg-black/60 -z-10"></div>
 
-<div class="relative bg-white/20 backdrop-blur-xl p-10 rounded-3xl 
-            shadow-2xl w-96 max-w-full border border-white/30">
+<h1 class="text-4xl text-center text-white font-bold mb-12 drop-shadow-lg">
+    Fine & Overdue Calculator
+</h1>
 
-    <h1 class="text-3xl font-bold text-center text-white drop-shadow-lg mb-4">
-        ➕ Add New Member
-    </h1>
+<div class="flex flex-col md:flex-row gap-10 justify-center items-start">
 
-    <?php if($message){ ?>
-        <p class="text-center font-semibold mb-4 <?php echo strpos($message,'successfully')!==false?'text-green-400':'text-red-400'; ?>">
-            <?php echo $message; ?>
-        </p>
-    <?php } ?>
+   
+    <div class="bg-white/20 backdrop-blur-xl p-8 rounded-3xl 
+                shadow-2xl w-full md:w-96 border border-white/30">
 
-    <form method="POST" class="space-y-5">
+        <h2 class="text-2xl text-white font-bold text-center mb-6">
+            Manual Fine Calculator
+        </h2>
 
-        <input type="text" name="name" placeholder="Full Name" required
+        <input type="number"
+               id="days"
+               placeholder="Enter Late Days"
                class="w-full p-4 rounded-xl bg-white/30 text-white
                       placeholder-white/70 border border-white/40
-                      focus:outline-none focus:ring-4 focus:ring-blue-400
-                      transition duration-300">
+                      focus:outline-none focus:ring-4 focus:ring-blue-400">
 
-        <input type="email" name="email" placeholder="Email" required
-               class="w-full p-4 rounded-xl bg-white/30 text-white
-                      placeholder-white/70 border border-white/40
-                      focus:outline-none focus:ring-4 focus:ring-blue-400
-                      transition duration-300">
-
-        <input type="text" name="phone" placeholder="Phone" required
-               class="w-full p-4 rounded-xl bg-white/30 text-white
-                      placeholder-white/70 border border-white/40
-                      focus:outline-none focus:ring-4 focus:ring-blue-400
-                      transition duration-300">
-
-        <input type="text" name="StudentId" placeholder="Student ID" required
-               class="w-full p-4 rounded-xl bg-white/30 text-white
-                      placeholder-white/70 border border-white/40
-                      focus:outline-none focus:ring-4 focus:ring-blue-400
-                      transition duration-300">
-
-        <button name="add"
-                class="w-full bg-gradient-to-r from-blue-500 to-indigo-600
-                       hover:from-indigo-600 hover:to-blue-500
+        <button onclick="calculateFine()"
+                class="w-full mt-6 bg-gradient-to-r from-blue-500 to-indigo-600
                        text-white p-4 rounded-xl font-semibold
-                       shadow-lg transform hover:scale-105
-                       transition duration-300">
-            Add Member
+                       shadow-lg hover:scale-105 transition duration-300">
+            Calculate Fine
         </button>
 
-        <button type="button" onclick="back()"
-                class="w-full mt-3 bg-gradient-to-r from-emerald-400 to-teal-500
-                       hover:from-teal-500 hover:to-emerald-400
+        <p id="fineResult"
+           class="mt-6 font-bold text-center text-green-300 text-lg"></p>
+    </div>
+
+   
+    <div class="bg-white/20 backdrop-blur-xl p-8 rounded-3xl 
+                shadow-2xl w-full md:w-96 border border-white/30">
+
+        <h2 class="text-2xl text-white font-bold text-center mb-6">
+            Borrow & Return Calculator
+        </h2>
+
+        <label class="text-white font-semibold">Borrow Date</label>
+        <input type="date"
+               id="borrowDate"
+               class="w-full p-4 rounded-xl bg-white/30 text-white
+                      border border-white/40 mt-2 mb-4">
+
+        <label class="text-white font-semibold">Return Date</label>
+        <input type="date"
+               id="returnDate"
+               class="w-full p-4 rounded-xl bg-white/30 text-white
+                      border border-white/40 mt-2">
+
+        <button onclick="calculateOverdue()"
+                class="w-full mt-6 bg-gradient-to-r from-green-500 to-emerald-600
                        text-white p-4 rounded-xl font-semibold
-                       shadow-lg transform hover:scale-105
-                       transition duration-300">
-            Back
+                       shadow-lg hover:scale-105 transition duration-300">
+            Calculate Overdue & Fine
         </button>
 
-    </form>
+        <p id="dateResult"
+           class="text-center font-bold mt-6 text-yellow-300 text-lg"></p>
+
+        <button onclick="back()"
+                class="w-full mt-6 bg-gradient-to-r from-emerald-400 to-teal-500
+                       text-white p-4 rounded-xl font-semibold
+                       shadow-lg hover:scale-105 transition duration-300">
+            Back to Dashboard
+        </button>
+    </div>
+
 </div>
 
 <script>
 function back(){
     window.location.href="main.php";
+}
+
+function calculateFine(){
+    let days = document.getElementById("days").value;
+
+    if(days === "" || days < 0){
+        document.getElementById("fineResult").innerHTML =
+        "Please enter valid late days.";
+        return;
+    }
+
+    let fine = days * 10;
+
+    document.getElementById("fineResult").innerHTML =
+    "Total Fine: Rs. " + fine;
+}
+
+function calculateOverdue(){
+
+    let borrow = document.getElementById("borrowDate").value;
+    let returned = document.getElementById("returnDate").value;
+
+    if(!borrow || !returned){
+        document.getElementById("dateResult").innerHTML =
+        "Please select both dates.";
+        return;
+    }
+
+    let borrowDate = new Date(borrow);
+    let returnDate = new Date(returned);
+
+    let difference = returnDate.getTime() - borrowDate.getTime();
+    let totalDays = Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+    if(totalDays < 0){
+        document.getElementById("dateResult").innerHTML =
+        "Return date must be after borrow date.";
+        return;
+    }
+
+
+    let freeDays = 14;
+
+    if(totalDays <= freeDays){
+        document.getElementById("dateResult").innerHTML =
+        "Returned within 14 days. No fine 🎉";
+    } 
+    else {
+
+        let overdueDays = totalDays - freeDays;
+        let fine = overdueDays * 10;
+
+        document.getElementById("dateResult").innerHTML =
+        "Overdue Days: " + overdueDays + 
+        "<br>Total Fine: Rs. " + fine;
+    }
 }
 </script>
 
